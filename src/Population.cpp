@@ -62,7 +62,8 @@ void Population::one_point_crossover(Organism & org1, Organism & org2, Populatio
 	p.fill_with_missing_chromosomes(org2, new_organism_path, index, 0);
 } 
 
-void Population::fill_with_missing_chromosomes(Organism & org2, std::vector<unsigned> &new_path, size_t index_start, size_t index_end)
+void Population::fill_with_missing_chromosomes(Organism & org2, std::vector<unsigned> &new_path, 
+												size_t index_start, size_t index_end)
 {
 	auto position{ 1 };
 	for (const auto &it : org2.get_path())

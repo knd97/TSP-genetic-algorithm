@@ -1,12 +1,15 @@
 ﻿#include "Algorithm.hpp"
 
 
-Algorithm::Algorithm(AdjacencyMatrix & matrix, double mutation_rate, double crossover_rate, double time_diff, size_t population_size)
-	:mutation_rate_{mutation_rate}, crossover_rate_{crossover_rate}, time_diff_{time_diff}, population_(population_size, matrix)
+Algorithm::Algorithm(AdjacencyMatrix & matrix, double mutation_rate,
+	 double crossover_rate, double time_diff, size_t population_size)
+	:mutation_rate_{mutation_rate}, crossover_rate_{crossover_rate},
+	 time_diff_{time_diff}, population_(population_size, matrix)
 {
 }
 
-void Algorithm::run(std::function<void(Population&)> mutation, std::function<void(Organism&, Organism&, Population &p)>crossover)
+void Algorithm::run(std::function<void(Population&)> mutation, 
+					std::function<void(Organism&, Organism&, Population &p)>crossover)
 {
 	auto start{ std::chrono::system_clock::now() };
 	std::chrono::system_clock::time_point end{};
@@ -43,7 +46,8 @@ std::pair<Organism&, Organism&> Algorithm::roulette_wheel_selection()
 
 		selected_organisms = { org_1 - probability.begin(), org_2 - probability.begin() };
 	}
-	return { population_.get_organism(selected_organisms.first), population_.get_organism(selected_organisms.second) };
+	return { population_.get_organism(selected_organisms.first), 
+			population_.get_organism(selected_organisms.second) };
 }
 
 double Algorithm::fitness_complement()
@@ -70,10 +74,11 @@ std::vector<double> Algorithm::calc_probability()
 	auto size{ population_.get_organisms().size() };
 	auto chances{ std::vector<double>(size) };
 
-	auto temp{ 0.0 };																//zmienna przechowująca poprzednio wyliczone prawdopodobieństwo, potrzebna do stworzenia sumy narastającej
+	auto temp{ 0.0 };																
 	for (size_t i{ 0 }; i < size; ++i)
 	{
-		chances[i] = ((population_.get_population_cost() - population_.get_organism(i).get_path_cost()) / complement) + temp;
+		chances[i] = ((population_.get_population_cost() 
+						- population_.get_organism(i).get_path_cost()) / complement) + temp;
 		temp = chances[i];
 	}
 	return chances;
